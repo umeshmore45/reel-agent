@@ -15,8 +15,15 @@ import { runAgent } from './agent/claudeCli.js';
 import { buildTurnPrompt } from './agent/prompt.js';
 
 const PORT = process.env.PORT || 4100;
+// Local only: the API serves your footage and runs Claude Code on your account.
+const HOST = process.env.HOST || '127.0.0.1';
+const WEB_ORIGINS = (process.env.WEB_ORIGIN || 'http://localhost:3100,http://127.0.0.1:3100').split(',');
+const LOCAL_HOSTNAMES = new Set(['localhost', '127.0.0.1', '[::1]']);
 const app = express();
-app.use(cors());
+// Rejects requests through any other hostname, so a web page can't reach the API via DNS rebinding.
+app.use((req, res, next) => (LOCAL_HOSTNAMES.has(req.hostname) ? next() : res.status(403).json({ error: 'Forbidden host' })));
+// Only the editor may call the API from a browser.
+app.use(cors({ origin: WEB_ORIGINS }));
 app.use(express.json({ limit: '5mb' }));
 // Media, thumbnails, proxies and renders. express.static handles Range requests for video seeking.
 app.use('/files', express.static(PROJECTS_DIR, { dotfiles: 'deny', index: false }));
@@ -313,4 +320,4 @@ app.delete('/api/projects/:id/renders/:rid', withProject, async (req, res) => {
   res.status(204).end();
 });
 
-app.listen(PORT, () => console.log(`Reel agent server on http://localhost:${PORT}`));
+app.listen(PORT, HOST, () => console.log(`Reel agent server on http://${HOST}:${PORT}`));

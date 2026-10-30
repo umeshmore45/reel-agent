@@ -56,6 +56,10 @@ Open http://localhost:3100.
 - **Colour presets:** CSS in `web/lib/constants.ts`, matching ffmpeg filters in `server/lib/render.js`.
 - **Agent tools:** Read only (it looks at contact sheets in the project folder). No shell, web or write access.
 
+## Security
+
+Reel Agent is a local app. The API serves your footage and runs Claude Code on your account, so it listens on `127.0.0.1` only, accepts browser requests only from the editor (`http://localhost:3100`, change with `WEB_ORIGIN`), and rejects any other `Host` header. Don't expose port 4100 to a network.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
