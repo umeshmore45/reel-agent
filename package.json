@@ -1,0 +1,12 @@
+{
+  "name": "reel-agent",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && npm --prefix server install && npm --prefix web install",
+    "setup:whisper": "mkdir -p server/models && curl -L --fail -o server/models/ggml-base.en.bin https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin",
+    "dev": "concurrently -n server,web -c blue,magenta \"npm --prefix server run dev\" \"npm --prefix web run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}

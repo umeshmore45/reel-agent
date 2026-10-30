@@ -1,0 +1,16 @@
+{
+  "name": "reel-agent-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch-path=index.js --watch-path=lib --watch-path=agent --watch-preserve-output index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "ffmpeg-static": "^5.2.0",
+    "multer": "^2.0.2"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules
+.next
+server/workspace
+server/models
+.env*.local
+*.tsbuildinfo
+.DS_Store
+.env
